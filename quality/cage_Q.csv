@@ -1,0 +1,7 @@
+name,batch,number,size(l),size(w),size(h),weight,description
+cagent1,3,1,,8.98,8.41,,孔正常
+cagent1,3,2,,8.89,8.4,,孔正常
+cagent1,3,3,,8.98,8.42,,孔正常
+cagent2,3,1,,8.96,8.38,,孔正常
+cagent2,3,2,,8.92,8.38,,孔正常
+cagent2,3,3,,8.93,8.38,,孔正常

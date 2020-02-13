@@ -7,19 +7,20 @@ Created on Mon Dec  2 08:58:44 2019
 import os, os.path
 import pandas as pd
 from tra import *
+import re
 
-num_letter = {'2': 'A', '4': 'B', '5': 'C', '6': 'D', '7': 'E'}
+# num_letter = {'2': 'A', '4': 'B', '5': 'C', '6': 'D', '7': 'E'}
 
-def rename():
+# def rename():
     
-    test_file_path = os.getcwd() + r'\test\19.04.18'
+#     test_file_path = os.getcwd() + r'\test\19.04.18'
     
-    for file in os.listdir(test_file_path):
-        if file.endswith('.txt'):
-            name_list = file.split('.')[0].split('-')
-            new_name = 'tra_1_' + num_letter[name_list[0][-2]] + name_list[0][-1] + '_' \
-            + name_list[-1][-1] + '_' + name_list[2] + '_' + name_list[-1] + '.txt'
-            os.rename(os.path.join(test_file_path, file), os.path.join(test_file_path, new_name))
+#     for file in os.listdir(test_file_path):
+#         if file.endswith('.txt'):
+#             name_list = file.split('.')[0].split('-')
+#             new_name = 'tra_1_' + num_letter[name_list[0][-2]] + name_list[0][-1] + '_' \
+#             + name_list[-1][-1] + '_' + name_list[2] + '_' + name_list[-1] + '.txt'
+#             os.rename(os.path.join(test_file_path, file), os.path.join(test_file_path, new_name))
 #            print(os.path.join(test_file_path, file), os.path.join(test_file_path, new_name))
 #rename()
             
@@ -89,15 +90,15 @@ def rename():
 #r = searchGraph(graph, 'A', 'E')
 #print(r)
 
-txt_path = os.getcwd() + r'\test\19.05.07'
-for file in os.listdir(txt_path):
-    if os.path.isdir(os.path.join(txt_path, file)) : continue
-    if 'lvya3' in file: 
-        t_file = file.replace('lvya3', 'LY12')
-        name_list = t_file.split('-')
-        name_list.insert(2, name_list[-1][:-4])
-        new_name = '_'.join(name_list)
-        os.rename(os.path.join(txt_path, file), os.path.join(txt_path, new_name))
+# txt_path = os.getcwd() + r'\test\19.05.07'
+# for file in os.listdir(txt_path):
+#     if os.path.isdir(os.path.join(txt_path, file)) : continue
+#     if 'lvya3' in file: 
+#         t_file = file.replace('lvya3', 'LY12')
+#         name_list = t_file.split('-')
+#         name_list.insert(2, name_list[-1][:-4])
+#         new_name = '_'.join(name_list)
+#         os.rename(os.path.join(txt_path, file), os.path.join(txt_path, new_name))
         # print(os.path.join(txt_path, file), os.path.join(txt_path, new_name))
     # if 'lattice31' in file:
     #     t_file = file.replace('lattice31-6-', 'tra-1-')
@@ -117,4 +118,11 @@ for file in os.listdir(txt_path):
     #         # print(new_name)
     #     os.rename(os.path.join(txt_path, file), os.path.join(txt_path, new_name))
         # print(os.path.join(txt_path, file), os.path.join(txt_path, new_name))
-
+txt_path = os.getcwd() + r'\test\19.05.07'
+dic = {'A':'2', 'B':'4', 'C':'5', 'D':'6', 'E':'7'}
+for file in os.listdir(txt_path):
+    match = re.search('[A-E]', file)
+    if match: 
+        new_name = file.replace(match.group(), dic[match.group()])
+        os.rename(os.path.join(txt_path, file), os.path.join(txt_path, new_name))
+        # print(os.path.join(txt_path, file), os.path.join(txt_path, new_name))

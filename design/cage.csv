@@ -1,0 +1,5 @@
+0,length,width,height,teeth_length,teeth_height,side_length,side_width,side_height,side_l_layers,side_w_layers,side_h_layers,side_Volume_fraction,side_thickness,side_lattice_type,front_Volume_fraction
+cage1,29.47,9,10,2.2,0.7,21,2.25,6.2,9,1,4,0.4,1.2,2,0.44
+cage2,29.47,9,10,2.2,0.7,21,2.25,6.2,9,1,4,0.47,1.2,2,0.44
+cagent1,29.47,9,8,0,0,21,2.25,6.2,9,1,4,0.4,1.2,2,0.44
+cagent2,29.47,9,8,0,0,21,2.25,6.2,9,1,4,0.47,1.2,2,0.44

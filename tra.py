@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 """
 Created on Mon Dec  2 09:11:25 2019
-
 @author: ZhongWei Sun
 """
 import os, os.path
@@ -9,21 +8,20 @@ import pandas as pd
 import numpy as np
 import math
 
-design_path = os.getcwd() + r'\design\design_tra.xlsx'
-design_para = pd.read_excel(design_path, index_col='name')
+design_path = os.getcwd() + r'\design\design_tra.xlsx'                            
+design_para = pd.read_excel(design_path, index_col='name')                         #设计参数
 
 quality_path = os.getcwd() + r'\quality\quality_tra.xlsx'
-quality_para = pd.read_excel(quality_path, index_col='name')
+quality_para = pd.read_excel(quality_path, index_col='name')                       #打印件测算参数
 
 test_date = '19.05.07'
-file_path = os.getcwd() + r'\test\%s'%test_date
+file_path = os.getcwd() + r'\test\%s'%test_date                                    #测试原始数据所在地址
 
 class tra_txt:
     '''The special test data file of test piece'''
     def __init__(self, file_name):
         self.file_name = file_name.split('.')[0]
         name_list = self.file_name.split('_')
-        print(self.file_name)
         
         # Basic information
         global file_path, design_para, quality_para
@@ -115,8 +113,8 @@ class tra_txt:
     def test_modu_0307(self):
         '''calculate stiffness and mudulus using 0307 method'''
         
-        max_load = self.ult_load * 0.7
-        min_load = self.ult_load * 0.3
+        max_load = self.ult_load * 0.5
+        min_load = self.ult_load * 0.2
         
         for i in range(self.n):
             if self.load[i] > min_load:
@@ -149,8 +147,8 @@ class tra_txt:
         #Smax-maxmium slope; Imax-maxmium intercept; Rmax-maxmium correlation cofficient
         Smax, Imax, Rmax = (0, 0, 0)
         from scipy.stats import linregress
-        for i in range(self.n - 101):
-            slope, intercept, r_value, _, _ = linregress(abs(self.dis)[i:i+100], abs(self.load)[i:i+100])
+        for i in range(100, self.n - 51, 25):
+            slope, intercept, r_value, _, _ = linregress(abs(self.dis)[i:i+50], abs(self.load)[i:i+50])
             if slope > Smax:
                 Smax = slope
                 Imax = intercept
@@ -272,11 +270,12 @@ class tra_piece:
             elif piece_name + '_2' in file:
                 self.second = tra_txt(file)
                 self.Modu_0307_second = self.second.test_modu_0307
-#                self.Modu_maxS_second = self.second.test_modu_maxS
-            else:
+                self.Modu_maxS_second = self.second.test_modu_maxS
+            elif piece_name + '_3' in file:
                 self.third = tra_txt(file)
           
         self.Modu_0307 = self.third.test_modu_0307
+        self.Modu_MS = self.third.test_modu_maxS
         
     @property
     def Yield_0307(self):
@@ -306,7 +305,7 @@ class tra_piece:
         plt.xlabel('Displacement (mm)')
         plt.ylabel('Load (N)')
         plt.title('Displacement-Load Curve (%s)'%self.piece_name)
-        png_path = os.getcwd() + r'\output\Dis&Load_%s.png'%self.piece_name
+        png_path = os.getcwd() + r'\tra_output\Dis&Load_%s.png'%self.piece_name
         plt.savefig(png_path)
 
         

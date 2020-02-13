@@ -5,76 +5,97 @@ Created on Wed Sep  4 15:01:04 2019
 @author: ADMINISTRATOR
 """
 import pandas as pd
-from Class_LY12 import *
+import Class_LY12
 import os, os.path
 import matplotlib.pyplot as plt
+
 '''Test date'''
-test_date = '19.05.07'
+test_date = '20.01.20'
 
-def LY12_extract_Data():
+txt_path =  os.getcwd() + r'\test\%s'%test_date
 
-    txt_path = os.getcwd() + r'\test\%s'%test_date
-    modu_10 = []
+def find_pieces():
 
-    for file in os.listdir(txt_path):
+    LY12_pieces = []
+    tra_pieces = []
 
-        if 'LY12_10' in file and file.endswith('.txt'):
-            test_10 = LY12(file)
-            if test_10.num_test != '3': continue
-#            test_10.plot_dis_load
-            modu_10.append([file.split('.')[0][0:10], test_10.test_modu_0307, test_10.test_modu_maxSlope])
+    for file in os.listdir(txt_path) :
+        if os.path.isdir(file) : continue
+        if 'LY12' in file :
+            name_list = file.split('_')
+            piece_name = '_'.join(name_list[:3])[:-1]
+            if piece_name in LY12_pieces : pass
+            else: LY12_pieces.append(piece_name)
+        else: continue
 
-    columns=['name', 'modu_0307', 'modu_maxSlope']
+    return LY12_pieces, tra_pieces
 
-    modu_frame_10  = pd.DataFrame(modu_10, columns=columns)
-    LY12_path = os.getcwd() + r'\output\LY12_10.xlsx'
+#Y12_R_1212 = []
+#LY12_pieces, _ = find_pieces()
+#for piece in LY12_pieces:
+#    LY12 = Class_LY12.LY12_piece(piece)
+#    LY12.Plt_Dis_Load()
+    # Y12_R_1212.append([piece, LY12.Modu_MS/1000/0.85, LY12.Modu_MS/1000/0.8, LY12.YieldS_MS])
 
-    with pd.ExcelWriter(LY12_path) as writer:
+# Y12_R_1212_frame = pd.DataFrame(Y12_R_1212, columns=['name', 'modu_0.85', 'modu_0.8', 'yield strength'])
+# excel_path = os.getcwd() + r'\LY12_output\1212.xlsx'
+# Y12_R_1212_frame.to_excel(excel_path, index=None)
 
-        modu_frame_10.to_excel(writer, sheet_name='modu_10', index=None)
+# Q235_pieces = ['LY12_11_6', 'LY12_11_7', 'LY12_11_8']
+# Q235_pieces = ['LY12_11_4']
+# for piece in Q235_pieces:
+#     Q235 = Class_LY12.LY12_piece(piece)
+#     Q235.Plt_Dis_Load()
+    # Q235.Plt_Dis()
+    # print(Q235.second.data_plot)
+    # print('0307:', piece, Q235.Modu_MS)
+    # print('MS:', piece, Q235.YieldS_MS)
 
-
-pieces_name = ['LY12_6_1', 'LY12_6_2', 'LY12_6_3']
-LY12_test = []
-for piece_name in pieces_name:
-    LY = LY12_pieces(piece_name)
-    LY12_test.append([piece_name, LY.modu_MS_second, LY.Modu_MS, LY.Yield_MS])
-    print(piece_name, LY.third.test_yieldS_MS, LY.third.test_yieldL_MS)
-    print(LY.Yield_MS)
-    LY.Plt_Dis_Load()
-LY12_test_frame = pd.DataFrame(LY12_test, columns=['name', 'Modu_MS_Second', 'Modu_MS', 'Yied_strength_MS'])
-LY12_test_frame.to_excel('0507_LY12.xlsx', index=None)
-
-# name = 'LY12_6_33_20190507_33.txt'
-# LY12_test = LY12_txt(name)
-# modu = LY12_test.test_modu_MS
-# print(LY12_test.test_yieldS_MS)
-# print(LY12_test.test_yieldL_MS)
-
-
-# modu = LY12_test.test_modu_0307
-# print(LY12_test.test_yieldS_0307)
-# print(LY12_test.test_yieldL_0307)
-#for file in file_names:
-#    
-#    LY12_plot = LY12(file)
-#    plt.plot(LY12_plot._raw_data[:, 1], LY12_plot._raw_data[:, 0], label='%s'%('LY12_10_' + LY12_plot.num_test_piece + LY12_plot.num_test))
+# print( 235 * 3.1415926 * 10 * 10 / 4)
     
-#    print('modulus:', LY12_plot.test_modu_maxSlope, '\n')
-#    LY12_plot.test_modu_0307
-#    plt.plot(LY12_plot.data_plot[:, 0], LY12_plot.data_plot[:, 1], label='%s'%('LY12_7_' + LY12_plot.num_test_piece + LY12_plot.num_test +'_0307'))
-#    
-#    LY12_plot.test_modu_maxSlope
-#    plt.plot(LY12_plot.data_plot[:, 0], LY12_plot.data_plot[:, 1], label='%s'%('LY12_7_' + LY12_plot.num_test_piece + LY12_plot.num_test +'_maxslope'))
-##
+txt_files = ['LY12_12_11_20200120_中船重工.txt', 'LY12_12_21_20200120_中船重工.txt', 'LY12_12_31_20200120_中船重工.txt']
+#
+#LY_1 = Class_LY12.LY12_txt('LY12_12_11_20200120_中船重工.txt')
+#print(LY_1.test_modu_0307, LY_1.stiff_0307, LY_1.stiff_0307/0.85)
+#LY_2 = Class_LY12.LY12_txt('LY12_12_21_20200120_中船重工.txt')
+#print(LY_2.test_modu_0307, LY_1.stiff_0307, LY_2.stiff_0307/0.85)
+#LY_3 = Class_LY12.LY12_txt('LY12_12_31_20200120_中船重工.txt')
+#print(LY_3.test_modu_0307, LY_1.stiff_0307, LY_3.stiff_0307/0.85)
+
+#plt.figure(1)
+#plt.plot(LY_1._dis, LY_1._load, label = LY_1.piece_num)
+#plt.plot(LY_2._dis, LY_2._load, label = LY_2.piece_num)
+#plt.plot(LY_3._dis, LY_3._load, label = LY_3.piece_num)
+#plt.xlabel('strain (%)')
+#plt.ylabel('load (N)')
 #plt.legend()
-#plt.xlabel('displacement_mm')
-#plt.ylabel('load_mm')   
-#plt.title('Displacement-Load curve')
-#png_path = os.getcwd() + r'\output\%s'%'LY12_10_4.png'
-#plt.savefig(png_path)
-##    
+#plt.savefig('strain_stress.png')
+#plt.close()
+#
+#plt.figure(2)
+#plt.plot(LY_1.data_plot[:, 0], LY_1.data_plot[:, 1], label = LY_1.piece_num)
+#plt.plot(LY_2.data_plot[:, 0], LY_2.data_plot[:, 1], label = LY_2.piece_num)
+#plt.plot(LY_3.data_plot[:, 0], LY_3.data_plot[:, 1], label = LY_3.piece_num)
+#plt.xlabel('strain (%)')
+#plt.ylabel('load (N)')
+#plt.legend()
+#plt.savefig('strain_stress_fix.png')
+#plt.close()
+
+#txt_files = ['LY12_12_11_20200120_中船重工.txt']
+for txt_file in txt_files:
+    LY = Class_LY12.LY12_txt(txt_file)
     
+#    LY.plot_dis_load
+    LY.test_modu_0307
+    print(LY.stiff_0307*100)
+
+
+
+
+
+
+
 
 
 
